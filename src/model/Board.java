@@ -9,7 +9,7 @@ public class Board {
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 	private static Board actualBoard;
 	private int guessNumber = 0;
-	private Color selectedColor;
+	private static Color selectedColor;
 	
 	public Board(int boardWidth, int boardHeight, boolean actual){
 		if (!actual) return;
@@ -32,11 +32,11 @@ public class Board {
 	}
 	
 	public static Color getColor() {
-		return actualBoard.selectedColor;
+		return selectedColor;
 	}
 
 	public static void setColor(Color selectedColor) {
-		actualBoard.selectedColor = selectedColor;
+		Board.selectedColor = selectedColor;
 	}
 
 	public void addPiece(int x, int y, int pos, Color c){

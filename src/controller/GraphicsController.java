@@ -144,11 +144,12 @@ public class GraphicsController implements MouseListener{
 		if (e.getSource() instanceof JButton && ((JButton)e.getSource()).getText().equals("Check")){
 			if (Board.actual().makeGuess()){
 				UI.guessMade = true;
+				Board.setColor(Color.LIGHT_GRAY);
 			}			
 			UI.revalidate();
 			UI.update();
 			UI.guessMade = false;
-			System.out.println("GUESS " + Board.actual().guessNum());
+			
 			if (Board.actual().guessNum() >= 12) {
 				submit.setVisible(false);
 				UI.revalidate();
