@@ -25,6 +25,7 @@ public class GraphicsController implements MouseListener{
 	private view.UserInterface UI;
 	private ArrayList<JButton> buttons = new ArrayList<JButton>();
 	private JButton submit;
+	private JButton newGame;
 	
 	/**
 	 * Instantiates a GraphicsController and configures the window
@@ -63,17 +64,17 @@ public class GraphicsController implements MouseListener{
 		green.addMouseListener(this);
 		buttons.add(green);
 		
-		JButton white = new JButton();
-		white.setBackground(Color.WHITE);
-		white.setPreferredSize(new Dimension(25,25));
-		white.addMouseListener(this);
-		buttons.add(white);
+		JButton magenta = new JButton();
+		magenta.setBackground(Color.MAGENTA);
+		magenta.setPreferredSize(new Dimension(25,25));
+		magenta.addMouseListener(this);
+		buttons.add(magenta);
 		
-		JButton pink = new JButton();
-		pink.setBackground(Color.PINK);
-		pink.setPreferredSize(new Dimension(25,25));
-		pink.addMouseListener(this);
-		buttons.add(pink);
+		JButton yellow = new JButton();
+		yellow.setBackground(Color.YELLOW);
+		yellow.setPreferredSize(new Dimension(25,25));
+		yellow.addMouseListener(this);
+		buttons.add(yellow);
 		
 		JButton black = new JButton();
 		black.setBackground(Color.BLACK);
@@ -85,14 +86,20 @@ public class GraphicsController implements MouseListener{
 		submit.setText("Check");
 		submit.setPreferredSize(new Dimension(75,25));
 		submit.addMouseListener(this);
-				
+		
+		newGame = new JButton();
+		newGame.setText("New Game");
+		newGame.setPreferredSize(new Dimension(100,25));
+		newGame.addMouseListener(this);
+			
+		this.UI.add(newGame,"NEW GAME");
 		this.UI.add(red, "RED");
 		this.UI.add(blue, "BLUE");
-		this.UI.add(pink, "PINK");
+		this.UI.add(yellow, "YELLOW");
 		this.UI.add(black, "BLACK");		
-		this.UI.add(white, "WHITE");
+		this.UI.add(magenta, "MAGENTA");
 		this.UI.add(green, "GREEN");	
-		this.UI.add(submit, "GUESS");
+		this.UI.add(submit, "GUESS");		
 		
 		
 		//Creates new JFrame and sets state to visible
@@ -109,7 +116,6 @@ public class GraphicsController implements MouseListener{
 	
 	/**
 	 * Determines if mouse was clicked while overtop a node
-	 * Calls {@link model.Board#processTurn(int, int, int)} to process event
 	 * Triggers update of the user interface
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
@@ -127,15 +133,28 @@ public class GraphicsController implements MouseListener{
 			model.Board.setColor(((JButton)e.getSource()).getBackground());
 			return;
 		}
-				
+		
+		if (e.getSource() instanceof JButton && ((JButton)e.getSource()).getText().equals("New Game")){
+			model.Board.actual().reset();
+			UI.revalidate();
+			UI.update();
+			return;
+		}
+		
 		if (e.getSource() instanceof JButton && ((JButton)e.getSource()).getText().equals("Check")){
 			if (Board.actual().makeGuess()){
 				UI.guessMade = true;
-			}		
+				Board.setColor(Color.LIGHT_GRAY);
+			}			
 			UI.revalidate();
 			UI.update();
 			UI.guessMade = false;
-			System.out.println("GUESS " + Board.actual().guessNum());			
+			
+			if (Board.actual().guessNum() >= 12) {
+				submit.setVisible(false);
+				UI.revalidate();
+				UI.update();
+			}
 			return;
 		}
 		

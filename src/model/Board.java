@@ -9,7 +9,7 @@ public class Board {
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 	private static Board actualBoard;
 	private int guessNumber = 0;
-	private Color selectedColor;
+	private static Color selectedColor;
 	
 	public Board(int boardWidth, int boardHeight, boolean actual){
 		if (!actual) return;
@@ -25,21 +25,35 @@ public class Board {
 		return actualBoard;
 	}
 	
+	public void reset(){
+		guessNumber = 0;
+		pieces = new ArrayList<Piece>();
+		selectedColor = Color.LIGHT_GRAY;		
+	}
+	
 	public static Color getColor() {
-		return actualBoard.selectedColor;
+		return selectedColor;
 	}
 
 	public static void setColor(Color selectedColor) {
-		actualBoard.selectedColor = selectedColor;
+		Board.selectedColor = selectedColor;
 	}
 
 	public void addPiece(int x, int y, int pos, Color c){
-		pieces.add(new Piece(x, y, pos, c));
+		int index = pieces.lastIndexOf(new Piece(-1,-1,pos,null));
+		if (index == -1) pieces.add(new Piece(x, y, pos, c));
+		else pieces.set(index, new Piece(x,y,pos,c));
 	}
 	
 	public Piece getPiece(int x){
 		if (pieces == null || pieces.isEmpty() || x >= pieces.size()) return null;
 		return pieces.get(x);
+	}
+	
+	public Piece getPieceOrdered(int x){
+		int index = pieces.indexOf(new Piece(-1,-1,x,null));
+		if (index == -1) return null;
+		else return pieces.get(index);
 	}
 	
 	public int getNumPieces(){		
