@@ -63,17 +63,17 @@ public class GraphicsController implements MouseListener{
 		green.addMouseListener(this);
 		buttons.add(green);
 		
-		JButton white = new JButton();
-		white.setBackground(Color.WHITE);
-		white.setPreferredSize(new Dimension(25,25));
-		white.addMouseListener(this);
-		buttons.add(white);
+		JButton magenta = new JButton();
+		magenta.setBackground(Color.MAGENTA);
+		magenta.setPreferredSize(new Dimension(25,25));
+		magenta.addMouseListener(this);
+		buttons.add(magenta);
 		
-		JButton pink = new JButton();
-		pink.setBackground(Color.PINK);
-		pink.setPreferredSize(new Dimension(25,25));
-		pink.addMouseListener(this);
-		buttons.add(pink);
+		JButton yellow = new JButton();
+		yellow.setBackground(Color.YELLOW);
+		yellow.setPreferredSize(new Dimension(25,25));
+		yellow.addMouseListener(this);
+		buttons.add(yellow);
 		
 		JButton black = new JButton();
 		black.setBackground(Color.BLACK);
@@ -88,9 +88,9 @@ public class GraphicsController implements MouseListener{
 				
 		this.UI.add(red, "RED");
 		this.UI.add(blue, "BLUE");
-		this.UI.add(pink, "PINK");
+		this.UI.add(yellow, "YELLOW");
 		this.UI.add(black, "BLACK");		
-		this.UI.add(white, "WHITE");
+		this.UI.add(magenta, "MAGENTA");
 		this.UI.add(green, "GREEN");	
 		this.UI.add(submit, "GUESS");
 		
@@ -131,11 +131,16 @@ public class GraphicsController implements MouseListener{
 		if (e.getSource() instanceof JButton && ((JButton)e.getSource()).getText().equals("Check")){
 			if (Board.actual().makeGuess()){
 				UI.guessMade = true;
-			}		
+			}			
 			UI.revalidate();
 			UI.update();
 			UI.guessMade = false;
-			System.out.println("GUESS " + Board.actual().guessNum());			
+			System.out.println("GUESS " + Board.actual().guessNum());
+			if (Board.actual().guessNum() >= 12) {
+				submit.setVisible(false);
+				UI.revalidate();
+				UI.update();
+			}
 			return;
 		}
 		

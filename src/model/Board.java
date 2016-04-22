@@ -34,12 +34,20 @@ public class Board {
 	}
 
 	public void addPiece(int x, int y, int pos, Color c){
-		pieces.add(new Piece(x, y, pos, c));
+		int index = pieces.lastIndexOf(new Piece(-1,-1,pos,null));
+		if (index == -1) pieces.add(new Piece(x, y, pos, c));
+		else pieces.set(index, new Piece(x,y,pos,c));
 	}
 	
 	public Piece getPiece(int x){
 		if (pieces == null || pieces.isEmpty() || x >= pieces.size()) return null;
 		return pieces.get(x);
+	}
+	
+	public Piece getPieceOrdered(int x){
+		int index = pieces.indexOf(new Piece(-1,-1,x,null));
+		if (index == -1) return null;
+		else return pieces.get(index);
 	}
 	
 	public int getNumPieces(){		

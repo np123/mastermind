@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -33,7 +34,7 @@ public class UserInterface extends JPanel {
 	final static int tileSize;
 
 	private final static Table<Color> colorSet;
-	private static Table<Color> code;
+	private Table<Color> code;
 
 	static BufferedImage boardImage = null;
 	static BufferedImage backImage = null;
@@ -64,20 +65,25 @@ public class UserInterface extends JPanel {
 		colorSet.insert(Color.RED, 0);
 		colorSet.insert(Color.BLUE, 1);
 		colorSet.insert(Color.GREEN, 2);
-		colorSet.insert(Color.WHITE, 3);
-		colorSet.insert(Color.PINK, 4);
+		colorSet.insert(Color.MAGENTA, 3);
+		colorSet.insert(Color.YELLOW, 4);
 		colorSet.insert(Color.BLACK, 5);
 
-		code = new Table<Color>(6);
-		code.insert(Color.RED, 0);
-		code.insert(Color.BLUE, 1);
-		code.insert(Color.GREEN, 2);
-		code.insert(Color.WHITE, 3);
-		code.insert(Color.PINK, 4);
-		code.insert(Color.BLACK, 5);
-
+		
+		
 	}
 
+	public UserInterface(){
+		Random codeGen = new Random();
+		code = new Table<Color>(6);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 0);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 1);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 2);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 3);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 4);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 5);	
+	}
+	
 
 	public void update(){
 		super.repaint();
@@ -100,7 +106,7 @@ public class UserInterface extends JPanel {
 		for (int i = 0; i < num; i++){
 			drawGuess(g, i, drawScore(i));
 		}
-
+		if (model.Board.actual().guessNum() == 12) drawAns(g);
 	}
 
 	private void drawBackground(Graphics g) {
@@ -143,6 +149,15 @@ public class UserInterface extends JPanel {
 		}
 	}
 
+	private void drawAns(Graphics g){
+		Graphics2D g2d = (Graphics2D) g;
+		for (int x = 72; x < 78; x++){			
+			g2d.setColor(code.colorAt(x % 6));
+			model.Piece pc = new model.Piece(model.Board.getNode(x).getX(),model.Board.getNode(x).getY(), x, code.colorAt(x % 6));
+			g2d.fillOval(pc.getScreenX() - 14, pc.getScreenY() - (boardHeight/20)/2, 28, 28);
+		}
+	}
+	
 	public int[] drawScore(int guess){
 
 		int yes = 0, pos = 0;
@@ -151,32 +166,35 @@ public class UserInterface extends JPanel {
 
 		for (int x = guess * 6; x < guess*6 + 6; x++){
 			if (Board.actual().getPiece(x) == null) return null;
-			Color c = Board.actual().getPiece(x).getColor();			
+			Color c = Board.actual().getPieceOrdered(x).getColor();			
+			//System.out.println("Color : " + c + " position " + x % 6);
 			row.insert(c, x % 6);
 		}
 
+		//System.out.println("Guess Colors");
 		int[] matches = new int[6];
-		for (int i = 0; i < code.size(); i++){			
-			//System.out.println("TEST" + row.colorAt(i).toString());
+		for (int i = 0; i < 6; i++){			
+			System.out.println("TEST" + row.colorAt(i).toString());
 			if (code.colorAt(i).equals(row.colorAt(i))){
 				matches[colorSet.get(code.colorAt(i))]++;
 				yes++;
 			}
 		}
+		//System.out.println("End Guess Colors");
 
 		for (Color c1 : code.keys()){										
 			//System.out.println(c1.toString());
 			//System.out.print("match: " + matches[colorSet.get(c1)] + "  wrong spot");
-			if (code.count(c1) - row.count(c1) == 0){
+			if (code.count(c1) - row.count(c1) <= 0){
 				//System.out.println(code.count(c1) - matches[colorSet.get(c1)]);
 				pos += (code.count(c1) - matches[colorSet.get(c1)]);
-			} else {
-				System.out.println();
+			} else if (row.count(c1) < code.count(c1)){
+				pos += (row.count(c1) - matches[colorSet.get(c1)]);
 			}
 		}
 
-		//System.out.println("Number of matches: " + yes);
-		//System.out.println("Number in wrong spot: " + pos);
+		System.out.println("Number of matches: " + yes);
+		System.out.println("Number in wrong spot: " + pos);
 
 		return new int[]{yes,pos};
 	}
