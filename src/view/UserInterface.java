@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -104,7 +105,9 @@ public class UserInterface extends JPanel {
 		}
 		
 		for (int i = 0; i < num; i++){
-			drawGuess(g, i, drawScore(i));
+			int[] score = drawScore(i);
+			drawGuess(g, i, score);
+			if (score[0] == 6) drawWin(g);
 		}
 		if (model.Board.actual().guessNum() == 12) drawAns(g);
 	}
@@ -112,7 +115,7 @@ public class UserInterface extends JPanel {
 	private void drawBackground(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
-		g2d.setPaint(new TexturePaint(backImage, new Rectangle(75,75)));		
+		g2d.setPaint(new TexturePaint(backImage, new Rectangle(100,100)));		
 		g2d.fillRect(0,0,windowWidth,windowHeight);		
 	}
 
@@ -158,6 +161,12 @@ public class UserInterface extends JPanel {
 		}
 	}
 	
+	private void drawWin(Graphics g){
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(new Font("TimesNewRoman", Font.BOLD, 25));
+		g2d.drawString("You Win!!", boardWidth + 5, boardHeight/5);
+	}
+	
 	public int[] drawScore(int guess){
 
 		int yes = 0, pos = 0;
@@ -174,7 +183,7 @@ public class UserInterface extends JPanel {
 		//System.out.println("Guess Colors");
 		int[] matches = new int[6];
 		for (int i = 0; i < 6; i++){			
-			System.out.println("TEST" + row.colorAt(i).toString());
+			//System.out.println("TEST" + row.colorAt(i).toString());
 			if (code.colorAt(i).equals(row.colorAt(i))){
 				matches[colorSet.get(code.colorAt(i))]++;
 				yes++;
@@ -193,8 +202,8 @@ public class UserInterface extends JPanel {
 			}
 		}
 
-		System.out.println("Number of matches: " + yes);
-		System.out.println("Number in wrong spot: " + pos);
+		//System.out.println("Number of matches: " + yes);
+		//System.out.println("Number in wrong spot: " + pos);
 
 		return new int[]{yes,pos};
 	}

@@ -25,6 +25,12 @@ public class Board {
 		return actualBoard;
 	}
 	
+	public void reset(){
+		guessNumber = 0;
+		pieces = new ArrayList<Piece>();
+		selectedColor = Color.LIGHT_GRAY;		
+	}
+	
 	public static Color getColor() {
 		return actualBoard.selectedColor;
 	}

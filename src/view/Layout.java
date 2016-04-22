@@ -30,7 +30,7 @@ public class Layout implements LayoutManager2 {
 	@Override
 	public void layoutContainer(Container parent) {		
 
-		for (int i = 0; i < buttons.size() - 1; i++){
+		for (int i = 1; i < buttons.size() - 1; i++){
 			Component current = buttons.get(i);
 			Dimension dim = position.get(i);			
 
@@ -41,6 +41,10 @@ public class Layout implements LayoutManager2 {
 		Dimension size = guess.getPreferredSize();
 		guess.setBounds(4*windowWidth/5 - 6*size.width/5, windowHeight - (windowHeight * (model.Board.actual().guessNum() + 2)/15), size.width, size.height);
 
+		Component newGame = buttons.getFirst();
+		Dimension sz = newGame.getPreferredSize();
+		newGame.setBounds(8*windowWidth/10 + sz.width/9, windowHeight/2 + 4 * sz.height, sz.width, sz.height);
+		
 	}
 
 	@Override
