@@ -136,6 +136,8 @@ public class GraphicsController implements MouseListener{
 		
 		if (e.getSource() instanceof JButton && ((JButton)e.getSource()).getText().equals("New Game")){
 			model.Board.actual().reset();
+			submit.setVisible(true);
+			UI.reset();
 			UI.revalidate();
 			UI.update();
 			return;

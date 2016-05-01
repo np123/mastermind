@@ -72,7 +72,17 @@ public class UserInterface extends JPanel {
 		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 5);	
 	}
 	
-
+	public void reset(){
+		Random codeGen = new Random();
+		code = new Table<Color>(6);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 0);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 1);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 2);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 3);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 4);
+		code.insert(colorSet.colorAt(codeGen.nextInt(6)), 5);
+	}
+	
 	public void update(){
 		super.repaint();
 	}
