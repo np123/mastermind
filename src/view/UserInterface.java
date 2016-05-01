@@ -52,12 +52,17 @@ public class UserInterface extends JPanel {
 		tileSize = 60;
 
 		colorSet = new Table<Color>(6);
-		colorSet.insert(Color.RED, 0);
+		colorSet.insert(new Color(198,0,0), 0);
+		colorSet.insert(new Color(11,0,169), 1);
+		colorSet.insert(new Color(0,186,12), 2);
+		colorSet.insert(new Color(248,9,255), 3);
+		colorSet.insert(new Color(228, 194, 25), 4);
+		/*colorSet.insert(Color.RED, 0);
 		colorSet.insert(Color.BLUE, 1);
 		colorSet.insert(Color.GREEN, 2);
 		colorSet.insert(Color.MAGENTA, 3);
 		colorSet.insert(Color.YELLOW, 4);
-		colorSet.insert(Color.BLACK, 5);		
+		colorSet.insert(Color.BLACK, 5);	*/	
 		
 	}
 
@@ -123,7 +128,8 @@ public class UserInterface extends JPanel {
 		}
 
 		
-		g2d.setPaint(new TexturePaint(backImage, new Rectangle(100,100)));		
+		//g2d.setPaint(new TexturePaint(backImage, new Rectangle(100,100)));
+		g2d.setColor(Color.LIGHT_GRAY);
 		g2d.fillRect(0,0,windowWidth,windowHeight);			
 	}
 
@@ -140,16 +146,22 @@ public class UserInterface extends JPanel {
 		}
 
 		
-		g2d.setPaint(new TexturePaint(boardImage, new Rectangle(tileSize,tileSize)));
-		g2d.fillRect(startWidth, startHeight, boardWidth, boardHeight);
+		/*g2d.setPaint(new TexturePaint(boardImage, new Rectangle(tileSize,tileSize)));
+		g2d.fillRect(startWidth, startHeight, boardWidth, boardHeight);*/
+		
+		g2d.setColor(new Color(43,64,104));
+		//g2d.setPaint(new TexturePaint(boardImage, new Rectangle(tileSize,tileSize)));
+		g2d.fillRoundRect(startWidth, startHeight + 20, boardWidth, boardHeight - 75, 25, 25);
+		//g2d.fillRect(startWidth, startHeight, boardWidth, boardHeight - 75);
 	}	
 
 	private void drawRows(Graphics g) {
 
 		Color cream = new Color (255,129,55);
 		g.setColor(cream);
-		for (int i = boardHeight/15; i < 9*boardHeight/10; i += boardHeight/15){
+		for (int i = boardHeight/15; i < 9*boardHeight/10; i += boardHeight/15){			
 			g.fillRoundRect(10, i, 7*boardWidth/10, boardHeight/20, 15, 15);
+			if (i == boardHeight/15) g.setColor(Color.DARK_GRAY);
 		}
 	}
 

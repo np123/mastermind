@@ -45,8 +45,70 @@ public class GraphicsController implements MouseListener{
 		UI.setLayout(layout);
 		this.UI = UI;
 		
-		
 		JButton red = new JButton();
+		//red.setBackground(Color.RED);
+		red.setBackground(new Color(198,0,0));
+		red.setPreferredSize(new Dimension(25,25));
+		red.addMouseListener(this);
+		buttons.add(red);
+		
+		JButton blue = new JButton();
+		//blue.setBackground(Color.BLUE);
+		blue.setBackground(new Color(11,0,169));
+		blue.setPreferredSize(new Dimension(25,25));
+		blue.addMouseListener(this);
+		buttons.add(blue);
+		
+		JButton green = new JButton();
+		//green.setBackground(Color.GREEN);
+		green.setBackground(new Color(0,186,12));
+		green.setPreferredSize(new Dimension(25,25));
+		green.addMouseListener(this);
+		buttons.add(green);
+		
+		JButton magenta = new JButton();
+		//magenta.setBackground(Color.MAGENTA);
+		magenta.setBackground(new Color(248,9,255));
+		magenta.setPreferredSize(new Dimension(25,25));
+		magenta.addMouseListener(this);
+		buttons.add(magenta);
+		
+		//Color gold = new Color(255, 213, 0);
+		Color gold = new Color(228, 194, 25);
+		JButton yellow = new JButton();
+		//yellow.setBackground(Color.YELLOW);
+		//yellow.setBackground(new Color(212, 175, 55));
+		yellow.setBackground(gold);
+		yellow.setPreferredSize(new Dimension(25,25));
+		yellow.addMouseListener(this);
+		buttons.add(yellow);
+		
+		JButton black = new JButton();
+		black.setBackground(Color.BLACK);
+		black.setPreferredSize(new Dimension(25,25));
+		black.addMouseListener(this);
+		buttons.add(black);
+		
+		submit = new JButton();
+		submit.setText("Check");
+		submit.setPreferredSize(new Dimension(75,25));
+		submit.addMouseListener(this);
+		
+		newGame = new JButton();
+		newGame.setText("New Game");
+		newGame.setPreferredSize(new Dimension(100,25));
+		newGame.addMouseListener(this);
+			
+		this.UI.add(newGame,"NEW GAME");
+		this.UI.add(red, "RED");
+		this.UI.add(blue, "BLUE");
+		this.UI.add(yellow, "YELLOW");
+		this.UI.add(black, "BLACK");		
+		this.UI.add(magenta, "MAGENTA");
+		this.UI.add(green, "GREEN");	
+		this.UI.add(submit, "GUESS");
+		
+		/*JButton red = new JButton();
 		red.setBackground(Color.RED);
 		red.setPreferredSize(new Dimension(25,25));
 		red.addMouseListener(this);
@@ -99,7 +161,7 @@ public class GraphicsController implements MouseListener{
 		this.UI.add(black, "BLACK");		
 		this.UI.add(magenta, "MAGENTA");
 		this.UI.add(green, "GREEN");	
-		this.UI.add(submit, "GUESS");		
+		this.UI.add(submit, "GUESS");*/		
 		
 		
 		//Creates new JFrame and sets state to visible
