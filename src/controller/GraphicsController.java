@@ -5,14 +5,15 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import model.Board;
+import view.UserInterface;
 
 /**
  * The GraphicsController class communicates with the user and
@@ -20,7 +21,7 @@ import model.Board;
  * model and view packages
  *
  */
-public class GraphicsController implements MouseListener{	
+public class GraphicsController extends MouseAdapter{	
 	
 	private view.UserInterface UI;
 	private ArrayList<JButton> buttons = new ArrayList<JButton>();
@@ -41,53 +42,36 @@ public class GraphicsController implements MouseListener{
 		new model.Board(4*width/5, height, true);
 		
 		view.Layout layout = new view.Layout(width, height);
-		view.UserInterface UI = new view.UserInterface();
-		UI.setLayout(layout);
-		this.UI = UI;
+		this.UI = new view.UserInterface();
+		UI.setLayout(layout);		
+		
+		/*
+		 * Creating the buttons used to control game actions
+		 */
 		
 		JButton red = new JButton();
-		//red.setBackground(Color.RED);
-		red.setBackground(new Color(198,0,0));
-		red.setPreferredSize(new Dimension(25,25));
-		red.addMouseListener(this);
+		red.setBackground(UserInterface.RED());		
 		buttons.add(red);
 		
 		JButton blue = new JButton();
-		//blue.setBackground(Color.BLUE);
-		blue.setBackground(new Color(11,0,169));
-		blue.setPreferredSize(new Dimension(25,25));
-		blue.addMouseListener(this);
+		blue.setBackground(UserInterface.BLUE());
 		buttons.add(blue);
 		
 		JButton green = new JButton();
-		//green.setBackground(Color.GREEN);
-		green.setBackground(new Color(0,186,12));
-		green.setPreferredSize(new Dimension(25,25));
-		green.addMouseListener(this);
+		green.setBackground(UserInterface.GREEN());
 		buttons.add(green);
 		
 		JButton magenta = new JButton();
-		//magenta.setBackground(Color.MAGENTA);
-		magenta.setBackground(new Color(248,9,255));
-		magenta.setPreferredSize(new Dimension(25,25));
-		magenta.addMouseListener(this);
+		magenta.setBackground(UserInterface.MAGENTA());
 		buttons.add(magenta);
 		
-		//Color gold = new Color(255, 213, 0);
-		Color gold = new Color(228, 194, 25);
-		JButton yellow = new JButton();
-		//yellow.setBackground(Color.YELLOW);
-		//yellow.setBackground(new Color(212, 175, 55));
-		yellow.setBackground(gold);
-		yellow.setPreferredSize(new Dimension(25,25));
-		yellow.addMouseListener(this);
-		buttons.add(yellow);
+		JButton gold = new JButton();
+		gold.setBackground(UserInterface.GOLD());
+		buttons.add(gold);
 		
 		JButton black = new JButton();
 		black.setBackground(Color.BLACK);
-		black.setPreferredSize(new Dimension(25,25));
-		black.addMouseListener(this);
-		buttons.add(black);
+		buttons.add(black);		
 		
 		submit = new JButton();
 		submit.setText("Check");
@@ -98,76 +82,20 @@ public class GraphicsController implements MouseListener{
 		newGame.setText("New Game");
 		newGame.setPreferredSize(new Dimension(100,25));
 		newGame.addMouseListener(this);
-			
-		this.UI.add(newGame,"NEW GAME");
-		this.UI.add(red, "RED");
-		this.UI.add(blue, "BLUE");
-		this.UI.add(yellow, "YELLOW");
-		this.UI.add(black, "BLACK");		
-		this.UI.add(magenta, "MAGENTA");
-		this.UI.add(green, "GREEN");	
-		this.UI.add(submit, "GUESS");
-		
-		/*JButton red = new JButton();
-		red.setBackground(Color.RED);
-		red.setPreferredSize(new Dimension(25,25));
-		red.addMouseListener(this);
-		buttons.add(red);
-		
-		JButton blue = new JButton();
-		blue.setBackground(Color.BLUE);
-		blue.setPreferredSize(new Dimension(25,25));
-		blue.addMouseListener(this);
-		buttons.add(blue);
-		
-		JButton green = new JButton();
-		green.setBackground(Color.GREEN);
-		green.setPreferredSize(new Dimension(25,25));
-		green.addMouseListener(this);
-		buttons.add(green);
-		
-		JButton magenta = new JButton();
-		magenta.setBackground(Color.MAGENTA);
-		magenta.setPreferredSize(new Dimension(25,25));
-		magenta.addMouseListener(this);
-		buttons.add(magenta);
-		
-		JButton yellow = new JButton();
-		yellow.setBackground(Color.YELLOW);
-		yellow.setPreferredSize(new Dimension(25,25));
-		yellow.addMouseListener(this);
-		buttons.add(yellow);
-		
-		JButton black = new JButton();
-		black.setBackground(Color.BLACK);
-		black.setPreferredSize(new Dimension(25,25));
-		black.addMouseListener(this);
-		buttons.add(black);
-		
-		submit = new JButton();
-		submit.setText("Check");
-		submit.setPreferredSize(new Dimension(75,25));
-		submit.addMouseListener(this);
-		
-		newGame = new JButton();
-		newGame.setText("New Game");
-		newGame.setPreferredSize(new Dimension(100,25));
-		newGame.addMouseListener(this);
-			
-		this.UI.add(newGame,"NEW GAME");
-		this.UI.add(red, "RED");
-		this.UI.add(blue, "BLUE");
-		this.UI.add(yellow, "YELLOW");
-		this.UI.add(black, "BLACK");		
-		this.UI.add(magenta, "MAGENTA");
-		this.UI.add(green, "GREEN");	
-		this.UI.add(submit, "GUESS");*/		
+					
+		UI.add(newGame, "New Game");
+		for (JButton button : buttons){
+			button.setPreferredSize(new Dimension(25,25));
+			button.addMouseListener(this);
+			UI.add(button,button.getText());
+		}	
+		UI.add(submit, "Check");	
 		
 		
 		//Creates new JFrame and sets state to visible
 		JFrame window = new JFrame();
 		window.setSize(width, height);
-		window.add(this.UI);
+		window.add(UI);
 		UI.addMouseListener(this);
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -191,11 +119,13 @@ public class GraphicsController implements MouseListener{
 		 * 
 		 * */
 				
+		//Color selection
 		if (buttons.contains(e.getSource())){
 			model.Board.setColor(((JButton)e.getSource()).getBackground());
 			return;
 		}
 		
+		//Create new game
 		if (e.getSource() instanceof JButton && ((JButton)e.getSource()).getText().equals("New Game")){
 			model.Board.actual().reset();
 			submit.setVisible(true);
@@ -205,6 +135,7 @@ public class GraphicsController implements MouseListener{
 			return;
 		}
 		
+		//Submit guess
 		if (e.getSource() instanceof JButton && ((JButton)e.getSource()).getText().equals("Check")){
 			if (Board.actual().makeGuess()){
 				UI.guessMade = true;
@@ -222,6 +153,10 @@ public class GraphicsController implements MouseListener{
 			return;
 		}
 		
+		/*
+		 * Check whether a Node was clicked, and if so, fill with selected colour
+		 */
+		
 		Point clicked = new Point(e.getX(), e.getY());
 		int position = -1;
 		
@@ -232,43 +167,13 @@ public class GraphicsController implements MouseListener{
 			}
 		}
 		
+		//If no colour selected or click is outside of nodes, do nothin
 		if (position == -1 || model.Board.getColor() == Color.LIGHT_GRAY) return;
 		
+		//Update board to reflect the guess in progress
 		Color color = model.Board.getColor();
 		model.Board.actual().addPiece(model.Board.getNode(position).getX(),model.Board.getNode(position).getY(), position, color); 
 		UI.update();
 		
 	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-	 */
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		e.consume();
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-	 */
-	@Override
-	public void mouseExited(MouseEvent e) {
-		e.consume();
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-	 */
-	@Override
-	public void mousePressed(MouseEvent e) {
-		e.consume();
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-	 */
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		e.consume();
-	}	
 }

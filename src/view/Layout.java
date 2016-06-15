@@ -21,10 +21,10 @@ public class Layout implements LayoutManager2 {
 	}	
 
 	@Override
-	public void addLayoutComponent(String name, Component comp) {		
+	public void addLayoutComponent(String name, Component comp) {
 		buttons.add(comp);
 		position.add(comp.getPreferredSize());
-		numComponents++;		
+		numComponents++;
 	}
 
 	@Override
@@ -64,11 +64,10 @@ public class Layout implements LayoutManager2 {
 	}
 
 	@Override
-	public void addLayoutComponent(Component arg0, Object arg1) {
-		if (arg1 == null) throw new IllegalArgumentException();			
-		else if (arg1 instanceof String) addLayoutComponent((String) arg1, arg0);
-		else throw new IllegalArgumentException("Invalid constraints specified: " + arg1);
-
+	public void addLayoutComponent(Component comp, Object arg1) {
+		if (arg1 instanceof String){
+			addLayoutComponent((String)arg1, comp);
+		}
 	}
 
 	@Override
@@ -88,7 +87,5 @@ public class Layout implements LayoutManager2 {
 	public Dimension maximumLayoutSize(Container parent) {
 		return preferredLayoutSize(parent);
 	}
-
-
 
 }

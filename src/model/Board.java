@@ -21,10 +21,18 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Distinguishing is used to allow creation of multiple boards
+	 * Used to make adding AI/solver algorithm easier
+	 * @return instance of the board
+	 */
 	public static Board actual(){
 		return actualBoard;
 	}
 	
+	/**
+	 * Resets the state of the game
+	 */
 	public void reset(){
 		guessNumber = 0;
 		pieces = new ArrayList<Piece>();
@@ -56,6 +64,9 @@ public class Board {
 		else return pieces.get(index);
 	}
 	
+	/**
+	 * @return number of occupied Nodes on the board
+	 */
 	public int getNumPieces(){		
 		return pieces.size();
 	}
@@ -68,10 +79,16 @@ public class Board {
 		return actualBoard.nodeList.get(pos);
 	}
 	
+	/**
+	 * @return the number of guesses made
+	 */
 	public int guessNum(){
 		return guessNumber;
 	}
 	
+	/**
+	 * @return value indicating whether submitted guess was valid
+	 */
 	public boolean makeGuess(){
 		Color[] row = new Color[6];
 		for (int x = guessNumber * 6; x < guessNumber * 6 + 6; x++){
