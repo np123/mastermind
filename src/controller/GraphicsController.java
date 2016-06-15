@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import model.Board;
 import view.UserInterface;
@@ -89,9 +91,8 @@ public class GraphicsController extends MouseAdapter{
 			button.addMouseListener(this);
 			UI.add(button,button.getText());
 		}	
-		UI.add(submit, "Check");	
-		
-		
+		UI.add(submit, "Check");
+				
 		//Creates new JFrame and sets state to visible
 		JFrame window = new JFrame();
 		window.setSize(width, height);
@@ -100,7 +101,15 @@ public class GraphicsController extends MouseAdapter{
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
-		window.setAlwaysOnTop(true);
+		
+		try {
+			// Set cross-platform Java L&F
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());				
+			SwingUtilities.updateComponentTreeUI(window);			
+			window.pack();			
+		} catch (Exception e){			
+			System.out.println("DIDNT WORK");
+		}
 	}
 
 	
