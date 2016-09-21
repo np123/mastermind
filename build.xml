@@ -1,0 +1,22 @@
+<project name = "Mastermind" basedir="." default="dist">
+
+	<target name="clean">
+        <delete dir="build"/>
+		<delete dir="bin"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="build/classes"/>
+        <javac includeantruntime="false" srcdir="src" destdir="build/classes"/>
+    </target>
+	
+	<target name = "dist" depends="compile">
+		<mkdir dir="build/jar/"/>
+		<jar destfile="build/jar/Mastermind.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="controller.GameManager"/>
+			</manifest>
+		</jar>
+	</target>
+	
+</project>
